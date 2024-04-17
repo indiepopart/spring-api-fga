@@ -16,8 +16,8 @@ okta:
 
 openfga:
   api-url: http://localhost:8080
-  store-id: 01HV2KB4GCY3Z1EZMGXN55M3Y3
-  authorization-model-id: 01HV2KBVPJQ9X9TCDR4DYZNCME
+  store-id: 01HVPKRS8RPMFYMSW0XQET3XPG
+  authorization-model-id: 01HVPV00HA9WVVS4ZMJ3PAWA56
 
 logging:
   level:

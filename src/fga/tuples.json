@@ -3,7 +3,7 @@
   "tuples": [
     {
       "key": {
-        "object":"group:a-team",
+        "object":"domain:a-team",
         "relation":"member",
         "user":"user:auth0|6434199152fb767f7eaed567"
       },
@@ -14,6 +14,14 @@
         "object":"file:1",
         "relation":"viewer",
         "user":"group:a-team#member"
+      },
+      "timestamp":"2024-04-08T21:20:56.503218858Z"
+    },
+    {
+      "key": {
+        "object":"file:1",
+        "relation":"owner",
+        "user":"user:auth0|6434199152fb767f7eaed567"
       },
       "timestamp":"2024-04-08T21:20:56.503218858Z"
     }

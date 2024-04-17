@@ -1,13 +1,16 @@
-    model
-        schema 1.1
-        
-        type user
-        
-        type group
-        relations
-            define member: [user]
+model
+  schema 1.1
 
-        type file
-        relations
-            define viewer: [user, user:*, group#member]
+type user
 
+type document
+  relations
+    define owner: [user, domain#member] or owner from parent
+    define writer: [user, domain#member] or owner or writer from parent
+    define commenter: [user, domain#member] or writer or commenter from parent
+    define viewer: [user, user:*, domain#member] or commenter or viewer from parent
+    define parent: [document]
+
+type domain
+  relations
+    define member: [user]
