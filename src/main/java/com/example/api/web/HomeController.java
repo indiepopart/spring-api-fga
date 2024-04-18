@@ -2,6 +2,8 @@ package com.example.api.web;
 
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -26,4 +28,10 @@ public class HomeController {
     public String hola(Authentication authentication) {
         return "Hello, " + authentication.getName() + "!";
     }
+
+    @GetMapping("/hi")
+    public String hola(OAuth2AuthenticatedPrincipal principal) {
+        return "Hello, " + principal.getAttribute("email") + "!";
+    }
+
 }
