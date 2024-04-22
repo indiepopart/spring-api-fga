@@ -1,4 +1,4 @@
-package com.example.api;
+package com.example.api.initializer;
 
 import com.example.api.model.Document;
 import com.example.api.model.DocumentRepository;
@@ -6,11 +6,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
 @Component
-class Initializer implements CommandLineRunner {
+class DocumentRepositoryInitializer implements CommandLineRunner {
 
     private DocumentRepository documentRepository;
 
-    public Initializer(DocumentRepository documentRepository) {
+    public DocumentRepositoryInitializer(DocumentRepository documentRepository) {
         this.documentRepository = documentRepository;
     }
 

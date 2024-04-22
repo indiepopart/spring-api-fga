@@ -3,6 +3,7 @@ package com.example.api;
 import com.example.api.model.AuthorizationRepository;
 import com.example.api.model.Document;
 import com.example.api.model.DocumentRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -16,7 +17,7 @@ public class DocumentService {
         this.documentRepository = documentRepository;
         this.authorizationRepository = authorizationRepository;
     }
-
+    @Transactional
     public Document save(Document file){
         Document result = documentRepository.save(file);
         authorizationRepository.save(result);
