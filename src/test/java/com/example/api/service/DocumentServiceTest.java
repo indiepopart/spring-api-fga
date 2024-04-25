@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.TestPropertySource;
 
@@ -64,4 +65,22 @@ public class DocumentServiceTest {
             () -> {});
     }
 
+    @Test
+    @WithMockUser(username = "test-user")
+    public void testSaveNotAuthorized(){
+
+        willReturn(false).given(openFga).check(any(), any(), any(), any());
+
+        Document document = new Document();
+        document.setId(4l);
+        document.setName("test-document");
+        document.setOwnerId("test-user");
+        document.setParentId(5L);
+
+
+        assertThatExceptionOfType(AccessDeniedException.class).isThrownBy(() -> {documentService.save(document);})
+                .withMessage("Access is denied");
+
+
+    }
 }

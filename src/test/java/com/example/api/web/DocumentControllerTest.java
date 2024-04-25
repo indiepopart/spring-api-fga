@@ -23,8 +23,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(DocumentController.class)
 public class DocumentControllerTest {
 
-    // Maybe this should be a spring boot test with a manual mockmvc
-
     @Autowired
     private MockMvc mockMvc;
 
