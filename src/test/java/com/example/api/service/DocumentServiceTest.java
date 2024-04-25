@@ -49,14 +49,13 @@ public class DocumentServiceTest {
         try {
             documentService.save(document);
             fail("Should have thrown an exception");
-        } catch (RuntimeException e) {
-            assertEquals("FGA Error", e.getMessage());
+        } catch (DocumentServiceException e) {
+            assertEquals("Unexpected error", e.getMessage());
 
             documentRepository.findById(4l).ifPresentOrElse(
                 (doc) -> fail("Document should not have been saved"),
                 () -> {});
         }
-
-
     }
+
 }

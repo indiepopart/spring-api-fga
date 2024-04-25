@@ -18,9 +18,13 @@ public class DocumentService {
         this.authorizationRepository = authorizationRepository;
     }
     @Transactional
-    public Document save(Document file){
-        Document result = documentRepository.save(file);
-        authorizationRepository.save(result);
-        return result;
+    public Document save(Document file) {
+        try {
+            Document result = documentRepository.save(file);
+            authorizationRepository.save(result);
+            return result;
+        } catch(Exception e){
+            throw new DocumentServiceException("Unexpected error", e);
+        }
     }
 }

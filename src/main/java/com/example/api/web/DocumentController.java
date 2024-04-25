@@ -1,8 +1,9 @@
 package com.example.api.web;
 
-import com.example.api.service.DocumentService;
 import com.example.api.model.Document;
 import com.example.api.model.DocumentRepository;
+import com.example.api.service.DocumentService;
+import com.example.api.service.DocumentServiceException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
@@ -26,31 +27,33 @@ public class DocumentController {
 
     @PostMapping("/file")
     @PreAuthorize("#document.parentId == null or @fga.check('document', #document.parentId, 'writer', 'user')")
-    public Document createFile(@RequestBody @P("document") Document file, Principal principal){
+    public Document createFile(@RequestBody @P("document") Document file, Principal principal) {
         file.setOwnerId(principal.getName());
         return documentService.save(file);
     }
 
     @GetMapping("/file")
-    public List<Document> getFiles(){
+    public List<Document> getFiles() {
         return documentRepository.findAll();
     }
 
     @GetMapping("/file/{id}")
     @PreAuthorize("@fga.check('document', #id, 'viewer', 'user')")
-    public Document getFile(@PathVariable @P("id") Long id){
-        return documentRepository.findById(id).orElse(null);
+    public ResponseEntity<Document> getFile(@PathVariable @P("id") Long id) {
+        return documentRepository.findById(id).map(file -> ResponseEntity.ok().body(file))
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/file/{id}")
     @PreAuthorize("@fga.check('document', #id, 'owner', 'user')")
-    public void deleteFile(@PathVariable Long id){
+    public ResponseEntity<?> deleteFile(@PathVariable Long id) {
         documentRepository.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/file/{id}")
     @PreAuthorize("@fga.check('document', #id, 'writer', 'user')")
-    public ResponseEntity<Document> updateFile(@PathVariable Long id, @RequestBody Document file){
+    public ResponseEntity<Document> updateFile(@PathVariable Long id, @RequestBody Document file) {
         return documentRepository.findById(id).map(update -> {
             update.setName(file.getName());
             update.setDescription(file.getDescription());
@@ -65,5 +68,9 @@ public class DocumentController {
         }).orElse(ResponseEntity.notFound().build());
     }
 
+    @ExceptionHandler
+    public ResponseEntity<String> handle(DocumentServiceException ex) {
+        return ResponseEntity.status(500).body(ex.getMessage());
+    }
 
 }
