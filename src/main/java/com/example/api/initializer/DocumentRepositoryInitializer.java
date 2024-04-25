@@ -8,6 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 class DocumentRepositoryInitializer implements CommandLineRunner {
 
+
     private DocumentRepository documentRepository;
 
     public DocumentRepositoryInitializer(DocumentRepository documentRepository) {

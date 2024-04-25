@@ -1,4 +1,4 @@
-package com.example.api;
+package com.example.api.service;
 
 import com.example.api.model.AuthorizationRepository;
 import com.example.api.model.Document;

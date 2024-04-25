@@ -1,6 +1,6 @@
 package com.example.api.web;
 
-import com.example.api.DocumentService;
+import com.example.api.service.DocumentService;
 import com.example.api.model.Document;
 import com.example.api.model.DocumentRepository;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +25,8 @@ public class DocumentController {
     }
 
     @PostMapping("/file")
-    public Document createFile(@RequestBody Document file, Principal principal){
+    @PreAuthorize("#document.parentId == null or @fga.check('document', #document.parentId, 'writer', 'user')")
+    public Document createFile(@RequestBody @P("document") Document file, Principal principal){
         file.setOwnerId(principal.getName());
         return documentService.save(file);
     }
@@ -37,17 +38,19 @@ public class DocumentController {
 
     @GetMapping("/file/{id}")
     @PreAuthorize("@fga.check('document', #id, 'viewer', 'user')")
-    public Document getFile(@PathVariable @P("id") String id){
+    public Document getFile(@PathVariable @P("id") Long id){
         return documentRepository.findById(id).orElse(null);
     }
 
     @DeleteMapping("/file/{id}")
-    public void deleteFile(@PathVariable String id){
+    @PreAuthorize("@fga.check('document', #id, 'owner', 'user')")
+    public void deleteFile(@PathVariable Long id){
         documentRepository.deleteById(id);
     }
 
     @PutMapping("/file/{id}")
-    public ResponseEntity<Document> updateFile(@PathVariable String id, @RequestBody Document file){
+    @PreAuthorize("@fga.check('document', #id, 'writer', 'user')")
+    public ResponseEntity<Document> updateFile(@PathVariable Long id, @RequestBody Document file){
         return documentRepository.findById(id).map(update -> {
             update.setName(file.getName());
             update.setDescription(file.getDescription());

@@ -18,6 +18,7 @@ openfga:
   api-url: http://localhost:8080
   store-id: 01HVPKRS8RPMFYMSW0XQET3XPG
   authorization-model-id: 01HVPV00HA9WVVS4ZMJ3PAWA56
+  enabled: true
 
 logging:
   level:

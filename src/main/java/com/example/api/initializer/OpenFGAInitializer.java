@@ -1,15 +1,18 @@
 package com.example.api.initializer;
 
+import dev.openfga.autoconfigure.ConditionalOnFgaProperties;
 import dev.openfga.sdk.api.client.OpenFgaClient;
 import dev.openfga.sdk.api.model.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ExecutionException;
 
 @Component
+@ConditionalOnProperty(prefix = "openfga", name = "enabled", havingValue = "true")
 public class OpenFGAInitializer implements CommandLineRunner {
 
     private Logger logger = LoggerFactory.getLogger(OpenFGAInitializer.class);

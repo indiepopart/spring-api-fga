@@ -13,6 +13,7 @@ public class Document {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private Long parentId;
     @NotEmpty
     private String ownerId;
     @NotEmpty
@@ -119,5 +120,13 @@ public class Document {
 
     public void setOwnerId(String ownerId) {
         this.ownerId = ownerId;
+    }
+
+    public Long getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Long parentId) {
+        this.parentId = parentId;
     }
 }
