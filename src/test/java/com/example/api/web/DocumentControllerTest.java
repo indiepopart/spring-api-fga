@@ -1,7 +1,6 @@
 package com.example.api.web;
 
 import com.example.api.model.Document;
-import com.example.api.model.DocumentRepository;
 import com.example.api.service.DocumentService;
 import com.example.api.service.DocumentServiceException;
 import org.junit.jupiter.api.Test;
@@ -9,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -23,11 +23,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(DocumentController.class)
 public class DocumentControllerTest {
 
+    // Maybe this should be a spring boot test with a manual mockmvc
+
     @Autowired
     private MockMvc mockMvc;
-
-    @MockBean
-    private DocumentRepository documentRepository;
 
     @MockBean
     private DocumentService documentService;
@@ -65,20 +64,20 @@ public class DocumentControllerTest {
     }
 
     @Test
-    //@WithMockUser(username = "test-user")
+    @WithMockUser(username = "test-user")
     public void testCreateFileForbidden() throws Exception {
         Document document = new Document();
         document.setName("test-file");
         document.setDescription("test-description");
         document.setOwnerId("other-user");
 
-        willReturn(document).given(documentService).save(any(Document.class));
+        willThrow(new AccessDeniedException("Access is denied")).given(documentService).save(any(Document.class));
 
         mockMvc.perform(post("/file").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"test-file\",\"description\":\"test-description\"}"))
-                //.andExpect(status().isForbidden());
-                .andExpect(status().isUnauthorized());
+                .andExpect(status().isForbidden());
+                //.andExpect(status().isUnauthorized());
 
     }
 }
