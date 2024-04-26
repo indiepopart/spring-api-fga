@@ -6,16 +6,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 
 @SpringBootTest
-@TestPropertySource(properties = {
-        "openfga.enabled=false"
-})
+@ActiveProfiles("test")
 public class OpenFGAUtilTest {
 
     private Logger logger = LoggerFactory.getLogger(OpenFGAUtilTest.class);

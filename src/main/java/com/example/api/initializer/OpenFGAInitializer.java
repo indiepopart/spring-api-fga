@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.ExecutionException;
 
 @Component
-@ConditionalOnProperty(prefix = "openfga", name = "enabled", havingValue = "true")
+@ConditionalOnProperty(prefix = "openfga", name = "initialize", havingValue = "true")
 public class OpenFGAInitializer implements CommandLineRunner {
 
     private Logger logger = LoggerFactory.getLogger(OpenFGAInitializer.class);

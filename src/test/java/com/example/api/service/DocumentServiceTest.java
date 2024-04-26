@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.ActiveProfiles;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.assertj.core.api.BDDAssertions.fail;
@@ -20,9 +20,7 @@ import static org.mockito.BDDMockito.willThrow;
 
 
 @SpringBootTest
-@TestPropertySource(properties = {
-    "openfga.enabled=false"
-})
+@ActiveProfiles("test")
 public class DocumentServiceTest {
 
 
