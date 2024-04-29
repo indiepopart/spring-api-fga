@@ -1,6 +1,5 @@
 package com.example.api.initializer;
 
-import dev.openfga.autoconfigure.ConditionalOnFgaProperties;
 import dev.openfga.sdk.api.client.OpenFgaClient;
 import dev.openfga.sdk.api.model.*;
 import org.slf4j.Logger;

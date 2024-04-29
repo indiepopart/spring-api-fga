@@ -19,6 +19,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 import org.testcontainers.openfga.OpenFGAContainer;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -107,7 +108,7 @@ public class DocumentIntegrationTest {
                 .andReturn();
 
         Document result = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Document.class);
-        document.setDescription("test-update-description");
+        document.setDescription("updated-description");
 
 
         mockMvc.perform(put("/file/{id}", result.getId())
@@ -117,7 +118,7 @@ public class DocumentIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists())
                 .andExpect(jsonPath("$.name").value("test-file"))
-                .andExpect(jsonPath("$.description").value("test-update-description"));
+                .andExpect(jsonPath("$.description").value("updated-description"));
 
         mockMvc.perform(get("/file/{id}", result.getId())
                         .with(csrf())
@@ -125,7 +126,7 @@ public class DocumentIntegrationTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists())
                 .andExpect(jsonPath("$.name").value("test-file"))
-                .andExpect(jsonPath("$.description").value("test-upadte-description"));
+                .andExpect(jsonPath("$.description").value("updated-description"));
     }
 
     @Test
@@ -149,5 +150,31 @@ public class DocumentIntegrationTest {
         mockMvc.perform(delete("/file/{id}", result.getId()).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "test-user")
+    public void testDeleteFile_NotOwned_AccessDenied() throws Exception {
+        Document document = new Document();
+        document.setName("test-file");
+        document.setDescription("test-description");
+
+        MvcResult mvcResult = mockMvc.perform(post("/file")
+                        .with(csrf())
+                        .with(user("owner-user"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(document)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").exists())
+                .andExpect(jsonPath("$.name").value("test-file"))
+                .andExpect(jsonPath("$.description").value("test-description"))
+                .andReturn();
+
+        Document result = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Document.class);
+
+        mockMvc.perform(delete("/file/{id}", result.getId()).with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isForbidden());
+
     }
 }

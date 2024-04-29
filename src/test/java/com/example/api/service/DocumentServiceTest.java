@@ -39,7 +39,7 @@ public class DocumentServiceTest {
         this.documentRepository = documentRepository;
     }
 
-    // Avoid entity without permission
+    // Test to verify when permissions save operation fails, the transaction is rolled back, and the entity is not saved
     @Test
     @WithMockUser(username = "test-user")
     public void testDualWriteFailure() {

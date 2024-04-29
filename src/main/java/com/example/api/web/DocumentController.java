@@ -1,12 +1,10 @@
 package com.example.api.web;
 
 import com.example.api.model.Document;
-import com.example.api.model.DocumentRepository;
 import com.example.api.service.DocumentService;
 import com.example.api.service.DocumentServiceException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
@@ -59,6 +57,7 @@ public class DocumentController {
             update.setVersion(file.getVersion());
             update.setOriginalFilename(file.getOriginalFilename());
             update.setFileExtension(file.getFileExtension());
+            update.setOwnerId(file.getOwnerId());
             Document result = documentService.update(update);
             return ResponseEntity.ok().body(result);
         }).orElse(ResponseEntity.notFound().build());

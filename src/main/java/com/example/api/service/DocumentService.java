@@ -34,18 +34,18 @@ public class DocumentService {
     }
 
     @PreAuthorize("@fga.check('document', #id, 'viewer', 'user')")
-    public Optional<Document> findById(Long id) {
+    public Optional<Document> findById(@P("id") Long id) {
         return documentRepository.findById(id);
     }
 
 
     @PreAuthorize("@fga.check('document', #id, 'owner', 'user')")
-    public void deleteById(Long id) {
+    public void deleteById(@P("id") Long id) {
         documentRepository.deleteById(id);
     }
 
-    @PreAuthorize("@fga.check('document', #id, 'writer', 'user')")
-    public Document update(Document document){
+    @PreAuthorize("@fga.check('document', #document.id, 'writer', 'user')")
+    public Document update(@P("document") Document document){
         return documentRepository.save(document);
     }
 
