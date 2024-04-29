@@ -38,7 +38,6 @@ public class DocumentService {
         return documentRepository.findById(id);
     }
 
-
     @PreAuthorize("@fga.check('document', #id, 'owner', 'user')")
     public void deleteById(@P("id") Long id) {
         documentRepository.deleteById(id);

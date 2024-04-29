@@ -57,7 +57,6 @@ public class DocumentController {
             update.setVersion(file.getVersion());
             update.setOriginalFilename(file.getOriginalFilename());
             update.setFileExtension(file.getFileExtension());
-            update.setOwnerId(file.getOwnerId());
             Document result = documentService.update(update);
             return ResponseEntity.ok().body(result);
         }).orElse(ResponseEntity.notFound().build());
