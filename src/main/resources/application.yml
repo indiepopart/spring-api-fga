@@ -9,7 +9,7 @@ okta:
   oauth2:
     issuer: https://dev-avup2laz.us.auth0.com/
     audience: https://hello-api.okta.com
-    groupsClaim: permissions
+    #groupsClaim: permissions
 
 
 # src/main/resources/application.yaml
