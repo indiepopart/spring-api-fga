@@ -24,6 +24,7 @@ public class DocumentController {
     }
 
     @PostMapping("/file")
+    //@PreAuthorize("#document.parentId == null or @fga.check('document', #document.parentId, 'writer', 'user')")
     public Document createFile(@RequestBody @P("document") Document file, Principal principal) {
         file.setOwnerId(principal.getName());
         return documentService.save(file);

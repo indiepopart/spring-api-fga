@@ -1,6 +1,5 @@
 package com.example.api.service;
 
-import com.example.api.model.AuthorizationRepository;
 import com.example.api.model.Document;
 import com.example.api.model.DocumentRepository;
 import dev.openfga.OpenFga;
@@ -27,7 +26,7 @@ public class DocumentServiceTest {
     private final DocumentService documentService;
 
     @MockBean
-    private AuthorizationRepository authorizationRepository;
+    private AuthorizationService authorizationService;
 
     private DocumentRepository documentRepository;
 
@@ -44,7 +43,7 @@ public class DocumentServiceTest {
     @Test
     @WithMockUser(username = "test-user")
     public void testDualWriteFailure() {
-        willThrow(new RuntimeException("FGA Error")).given(authorizationRepository).save(any(Document.class));
+        willThrow(new RuntimeException("FGA Error")).given(authorizationService).create(any(Document.class));
         willReturn(true).given(openFga).check(any(), any(), any(), any());
 
         // Test the save method

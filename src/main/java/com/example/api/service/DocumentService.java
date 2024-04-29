@@ -1,6 +1,5 @@
 package com.example.api.service;
 
-import com.example.api.model.AuthorizationRepository;
 import com.example.api.model.Document;
 import com.example.api.model.DocumentRepository;
 import jakarta.transaction.Transactional;
@@ -16,18 +15,18 @@ public class DocumentService {
 
     private DocumentRepository documentRepository;
 
-    private AuthorizationRepository authorizationRepository;
+    private AuthorizationService authorizationService;
 
-    public DocumentService(DocumentRepository documentRepository, AuthorizationRepository authorizationRepository) {
+    public DocumentService(DocumentRepository documentRepository, AuthorizationService authorizationService) {
         this.documentRepository = documentRepository;
-        this.authorizationRepository = authorizationRepository;
+        this.authorizationService = authorizationService;
     }
     @Transactional
     @PreAuthorize("#document.parentId == null or @fga.check('document', #document.parentId, 'writer', 'user')")
     public Document save(@P("document") Document file) {
         try {
             Document result = documentRepository.save(file);
-            authorizationRepository.save(result);
+            authorizationService.create(result);
             return result;
         } catch(Exception e){
             throw new DocumentServiceException("Unexpected error", e);

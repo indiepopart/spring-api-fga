@@ -67,15 +67,15 @@ public class DocumentControllerTest {
         Document document = new Document();
         document.setName("test-file");
         document.setDescription("test-description");
-        document.setOwnerId("other-user");
+        document.setParentId(1L);
 
+        // AccessDeniedException thrown when @PreAuthorize rejects the operation
         willThrow(new AccessDeniedException("Access is denied")).given(documentService).save(any(Document.class));
 
         mockMvc.perform(post("/file").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"test-file\",\"description\":\"test-description\"}"))
                 .andExpect(status().isForbidden());
-                //.andExpect(status().isUnauthorized());
 
     }
 }

@@ -1,5 +1,6 @@
-package com.example.api.model;
+package com.example.api.service;
 
+import com.example.api.model.Document;
 import dev.openfga.sdk.api.client.OpenFgaClient;
 import dev.openfga.sdk.api.client.model.ClientTupleKey;
 import dev.openfga.sdk.api.client.model.ClientWriteResponse;
@@ -10,21 +11,21 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 @Service
-public class AuthorizationRepository {
+public class AuthorizationService {
 
     private OpenFgaClient fgaClient;
 
-    public AuthorizationRepository(OpenFgaClient fgaClient) {
+    public AuthorizationService(OpenFgaClient fgaClient) {
         this.fgaClient = fgaClient;
     }
 
-    public void save(Document file){
+    public void create(Document file){
         try {
             ClientTupleKey tuple = new ClientTupleKey().user("user:" + file.getOwnerId()).relation("owner")._object("document:" + file.getId());
             ClientWriteResponse response = fgaClient.writeTuples(List.of(tuple)).get();
 
         } catch (FgaInvalidParameterException | InterruptedException | ExecutionException e) {
-            throw new RuntimeException(e);
+            throw new AuthorizationServiceException(e);
         }
 
     }
