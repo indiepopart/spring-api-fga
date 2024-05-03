@@ -8,10 +8,10 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @SpringBootApplication
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @EnableTransactionManagement
-public class FgaTestApplication {
+public class DocumentApiApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(FgaTestApplication.class, args);
+		SpringApplication.run(DocumentApiApplication.class, args);
 	}
 
 }

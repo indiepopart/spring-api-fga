@@ -1,9 +1,12 @@
 package com.example.demo.initializer;
 
 import com.example.demo.model.Document;
+import com.example.demo.model.DocumentBuilder;
 import com.example.demo.model.DocumentRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDateTime;
 
 @Component
 class DocumentRepositoryInitializer implements CommandLineRunner {
@@ -18,8 +21,37 @@ class DocumentRepositoryInitializer implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         // Add some initial data
-         documentRepository.save(new Document(null, null, "file1", "description1", "createdTime1", "modifiedTime1", "quotaBytesUsed1", "version1", "originalFilename1", "fileExtension1"));
-         documentRepository.save(new Document(null, null, "file2", "description2", "createdTime2", "modifiedTime2", "quotaBytesUsed2", "version2", "originalFilename2", "fileExtension2"));
-         documentRepository.save(new Document(null, null, "file3", "description3", "createdTime3", "modifiedTime3", "quotaBytesUsed3", "version3", "originalFilename3", "fileExtension3"));
+        LocalDateTime dateTime = LocalDateTime.now();
+
+        Document document1 = new DocumentBuilder()
+                .withOwnerId("test-user")
+                .withName("planning-v0")
+                .withDescription("Planning doc")
+                .withCreatedTime(dateTime)
+                .withModifiedTime(dateTime)
+                .withFileExtension(".doc")
+                .build();
+
+        Document document2 = new DocumentBuilder()
+                .withOwnerId("test-user")
+                .withName("image-1")
+                .withDescription("Some image")
+                .withCreatedTime(dateTime)
+                .withModifiedTime(dateTime)
+                .withFileExtension(".jpg")
+                .build();
+
+        Document document3 = new DocumentBuilder()
+                .withOwnerId("test-user")
+                .withName("meeting-notes")
+                .withDescription("Some text file")
+                .withCreatedTime(dateTime)
+                .withModifiedTime(dateTime)
+                .withFileExtension(".txt")
+                .build();
+
+        documentRepository.save(document1);
+        documentRepository.save(document2);
+        documentRepository.save(document3);
     }
 }

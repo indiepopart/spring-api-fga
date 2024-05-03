@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: 8080
 
 spring:
   application:
@@ -15,7 +15,7 @@ okta:
 # src/main/resources/application.yaml
 
 openfga:
-  api-url: http://localhost:8080
+  api-url: http://localhost:8090
   store-id: 01HVPKRS8RPMFYMSW0XQET3XPG
   authorization-model-id: 01HVPV00HA9WVVS4ZMJ3PAWA56
   initialize: true
