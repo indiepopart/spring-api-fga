@@ -13,7 +13,7 @@ To download the API project, execute the following commands:
 
 ```bash
 git clone https://github.com/indiepopart/spring-api-fga.git
-cd spring-api-fga
+cd spring-api-fga/final
 ```
 
 ## Register the API to Auth0
@@ -31,7 +31,7 @@ Register the API within your tenant:
 ```shell
 auth0 apis create \
   --name "Spring API" \
-  --identifier https://spring-api.okta.com
+  --identifier https://document-api.okta.com
 ```
 
 The first line in the command output will contain your Auth0 domain.
@@ -44,7 +44,7 @@ Create a file `application.yml` at the project root with the following content:
 okta:
   oauth2:
     issuer: https://<your-auth0-domain>/
-    audience: https://spring-api.okta.com
+    audience: https://document-api.okta.com
 ```
 
 Run the API with:
@@ -58,7 +58,7 @@ Run the API with:
 Create a test access token:
 
 ```shell
-auth0 test token -a https://spring-api.okta.com -s openid
+auth0 test token -a https://document-api.okta.com -s openid
 ```
 
 Save the access token in an environment variable:
@@ -74,7 +74,7 @@ curl -X POST \
   -H "Authorization:Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"name": "planning.doc"}' \
-  http://localhost:8090/file
+  http://localhost:8080/file
 ```
 
 ## Help
