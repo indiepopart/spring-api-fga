@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.model.Document;
 import com.example.demo.model.DocumentRepository;
+import com.example.demo.model.Permission;
+import com.example.demo.model.PermissionBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
@@ -21,12 +23,18 @@ public class DocumentService {
         this.documentRepository = documentRepository;
         this.authorizationService = authorizationService;
     }
+
     @Transactional
     @PreAuthorize("#document.parentId == null or @fga.check('document', #document.parentId, 'writer', 'user')")
     public Document save(@P("document") Document file) {
         try {
             Document result = documentRepository.save(file);
-            authorizationService.create(result);
+            Permission permission = new PermissionBuilder()
+                    .withDocumentId(result.getId())
+                    .withRelation("owner")
+                    .withUserId(result.getOwnerId())
+                    .build();
+            authorizationService.create(permission);
             return result;
         } catch(Exception e){
             throw new DocumentServiceException("Unexpected error", e);

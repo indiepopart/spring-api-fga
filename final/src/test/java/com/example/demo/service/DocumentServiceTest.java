@@ -2,6 +2,7 @@ package com.example.demo.service;
 
 import com.example.demo.model.Document;
 import com.example.demo.model.DocumentRepository;
+import com.example.demo.model.Permission;
 import dev.openfga.OpenFga;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,7 +44,7 @@ public class DocumentServiceTest {
     @Test
     @WithMockUser(username = "test-user")
     public void testDualWriteFailure() {
-        willThrow(new RuntimeException("FGA Error")).given(authorizationService).create(any(Document.class));
+        willThrow(new RuntimeException("FGA Error")).given(authorizationService).create(any(Permission.class));
         willReturn(true).given(openFga).check(any(), any(), any(), any());
 
         // Test the save method

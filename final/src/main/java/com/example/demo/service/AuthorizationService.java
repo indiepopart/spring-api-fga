@@ -1,6 +1,6 @@
 package com.example.demo.service;
 
-import com.example.demo.model.Document;
+import com.example.demo.model.Permission;
 import dev.openfga.sdk.api.client.OpenFgaClient;
 import dev.openfga.sdk.api.client.model.ClientTupleKey;
 import dev.openfga.sdk.api.client.model.ClientWriteResponse;
@@ -19,17 +19,15 @@ public class AuthorizationService {
         this.fgaClient = fgaClient;
     }
 
-    public void create(Document file){
+    public void create(Permission permission) {
         try {
             ClientTupleKey tuple = new ClientTupleKey()
-                    .user("user:" + file.getOwnerId())
-                    .relation("owner")
-                    ._object("document:" + file.getId());
+                    .user("user:" + permission.getUserId())
+                    .relation(permission.getRelation())
+                    ._object("document:" + permission.getDocumentId());
             ClientWriteResponse response = fgaClient.writeTuples(List.of(tuple)).get();
-
         } catch (FgaInvalidParameterException | InterruptedException | ExecutionException e) {
             throw new AuthorizationServiceException(e);
         }
-
     }
 }
