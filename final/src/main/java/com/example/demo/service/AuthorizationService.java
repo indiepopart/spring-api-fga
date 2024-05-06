@@ -21,7 +21,10 @@ public class AuthorizationService {
 
     public void create(Document file){
         try {
-            ClientTupleKey tuple = new ClientTupleKey().user("user:" + file.getOwnerId()).relation("owner")._object("document:" + file.getId());
+            ClientTupleKey tuple = new ClientTupleKey()
+                    .user("user:" + file.getOwnerId())
+                    .relation("owner")
+                    ._object("document:" + file.getId());
             ClientWriteResponse response = fgaClient.writeTuples(List.of(tuple)).get();
 
         } catch (FgaInvalidParameterException | InterruptedException | ExecutionException e) {
