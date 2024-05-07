@@ -19,30 +19,30 @@ public class DocumentController {
     }
 
     @PostMapping("/document")
-    public Document createFile(@RequestBody Document document) {
+    public Document createDocument(@RequestBody Document document) {
         document.setOwnerId("test-user");
         return documentService.save(document);
     }
 
     @GetMapping("/document")
-    public List<Document> getFiles() {
+    public List<Document> getDocuments() {
         return documentService.findAll();
     }
 
     @GetMapping("/document/{id}")
-    public ResponseEntity<Document> getFile(@PathVariable Long id) {
-        return documentService.findById(id).map(file -> ResponseEntity.ok().body(file))
+    public ResponseEntity<Document> getDocument(@PathVariable Long id) {
+        return documentService.findById(id).map(document -> ResponseEntity.ok().body(document))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/document/{id}")
-    public ResponseEntity<?> deleteFile(@PathVariable Long id) {
+    public ResponseEntity<?> deleteDocument(@PathVariable Long id) {
         documentService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/document/{id}")
-    public ResponseEntity<Document> updateFile(@PathVariable Long id, @RequestBody Document document) {
+    public ResponseEntity<Document> updateDocument(@PathVariable Long id, @RequestBody Document document) {
         // TODO this will return access denied if document does not exist
         return documentService.findById(id).map(update -> {
             update.setName(document.getName());

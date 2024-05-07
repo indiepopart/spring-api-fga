@@ -31,41 +31,41 @@ public class DocumentControllerTest {
 
     @Test
     @WithMockUser(username = "test-user")
-    public void testCreateFile() throws Exception {
+    public void testCreateDocument() throws Exception {
 
         Document document = new Document();
-        document.setName("test-file");
+        document.setName("test-doc");
         document.setDescription("test-description");
 
         willReturn(document).given(documentService).save(any(Document.class));
 
         mockMvc.perform(post("/document").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
-            .content("{\"name\":\"test-file\",\"description\":\"test-description\"}"))
+            .content("{\"name\":\"test-doc\",\"description\":\"test-description\"}"))
             .andExpect(status().isOk())
             .andExpect(jsonPath("$").exists())
-            .andExpect(jsonPath("$.name").value("test-file"))
+            .andExpect(jsonPath("$.name").value("test-doc"))
             .andExpect(jsonPath("$.description").value("test-description"));
     }
 
     @Test
     @WithMockUser(username = "test-user")
-    public void testCreateFileError() throws Exception {
+    public void testCreateDocumentError() throws Exception {
 
         willThrow(new DocumentServiceException(new RuntimeException("FGA Error"))).given(documentService).save(any(Document.class));
 
         mockMvc.perform(post("/document").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"test-file\",\"description\":\"test-description\"}"))
+                        .content("{\"name\":\"test-doc\",\"description\":\"test-description\"}"))
                 .andExpect(status().isInternalServerError());
 
     }
 
     @Test
     @WithMockUser(username = "test-user")
-    public void testCreateFileForbidden() throws Exception {
+    public void testCreateDocumentForbidden() throws Exception {
         Document document = new Document();
-        document.setName("test-file");
+        document.setName("test-doc");
         document.setDescription("test-description");
         document.setParentId(1L);
 
@@ -74,7 +74,7 @@ public class DocumentControllerTest {
 
         mockMvc.perform(post("/document").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\":\"test-file\",\"description\":\"test-description\"}"))
+                        .content("{\"name\":\"test-doc\",\"description\":\"test-description\"}"))
                 .andExpect(status().isForbidden());
 
     }
