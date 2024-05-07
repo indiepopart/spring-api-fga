@@ -19,9 +19,9 @@ public class DocumentController {
     }
 
     @PostMapping("/document")
-    public Document createFile(@RequestBody Document file) {
-        file.setOwnerId("test-user");
-        return documentService.save(file);
+    public Document createFile(@RequestBody Document document) {
+        document.setOwnerId("test-user");
+        return documentService.save(document);
     }
 
     @GetMapping("/document")
@@ -42,17 +42,17 @@ public class DocumentController {
     }
 
     @PutMapping("/document/{id}")
-    public ResponseEntity<Document> updateFile(@PathVariable Long id, @RequestBody Document file) {
+    public ResponseEntity<Document> updateFile(@PathVariable Long id, @RequestBody Document document) {
         // TODO this will return access denied if document does not exist
         return documentService.findById(id).map(update -> {
-            update.setName(file.getName());
-            update.setDescription(file.getDescription());
-            update.setCreatedTime(file.getCreatedTime());
-            update.setModifiedTime(file.getModifiedTime());
-            update.setQuotaBytesUsed(file.getQuotaBytesUsed());
-            update.setVersion(file.getVersion());
-            update.setOriginalFilename(file.getOriginalFilename());
-            update.setFileExtension(file.getFileExtension());
+            update.setName(document.getName());
+            update.setDescription(document.getDescription());
+            update.setCreatedTime(document.getCreatedTime());
+            update.setModifiedTime(document.getModifiedTime());
+            update.setQuotaBytesUsed(document.getQuotaBytesUsed());
+            update.setVersion(document.getVersion());
+            update.setOriginalFilename(document.getOriginalFilename());
+            update.setFileExtension(document.getFileExtension());
             Document result = documentService.update(update);
             return ResponseEntity.ok().body(result);
         }).orElse(ResponseEntity.notFound().build());

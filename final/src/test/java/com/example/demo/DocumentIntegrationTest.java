@@ -50,11 +50,11 @@ public class DocumentIntegrationTest {
 
     @Test
     @WithMockUser(username = "test-user")
-    public void testCreateFileIsFobidden() throws Exception {
+    public void testCreateDocumentIsFobidden() throws Exception {
 
         Document document = new Document();
         document.setParentId(1L);
-        document.setName("test-file");
+        document.setName("test-doc");
         document.setDescription("test-description");
 
         mockMvc.perform(post("/document").with(csrf())
@@ -65,10 +65,10 @@ public class DocumentIntegrationTest {
 
     @Test
     @WithMockUser(username = "test-user")
-    public void testCreateFile() throws Exception {
+    public void testCreateDocument() throws Exception {
 
         Document document = new Document();
-        document.setName("test-file");
+        document.setName("test-doc");
         document.setDescription("test-description");
 
         MvcResult mvcResult = mockMvc.perform(post("/document")
@@ -76,7 +76,7 @@ public class DocumentIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(document)))
                 .andExpect(status().isOk()).andExpect(jsonPath("$").exists())
-                .andExpect(jsonPath("$.name").value("test-file"))
+                .andExpect(jsonPath("$.name").value("test-doc"))
                 .andExpect(jsonPath("$.description").value("test-description"))
                 .andReturn();
 
@@ -87,15 +87,15 @@ public class DocumentIntegrationTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists())
-                .andExpect(jsonPath("$.name").value("test-file"))
+                .andExpect(jsonPath("$.name").value("test-doc"))
                 .andExpect(jsonPath("$.description").value("test-description"));
     }
 
     @Test
     @WithMockUser(username = "test-user")
-    public void testUpdateFile() throws Exception {
+    public void testUpdateDocument() throws Exception {
         Document document = new Document();
-        document.setName("test-file");
+        document.setName("test-doc");
         document.setDescription("test-description");
 
         MvcResult mvcResult = mockMvc.perform(post("/document")
@@ -103,7 +103,7 @@ public class DocumentIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(document)))
                 .andExpect(status().isOk()).andExpect(jsonPath("$").exists())
-                .andExpect(jsonPath("$.name").value("test-file"))
+                .andExpect(jsonPath("$.name").value("test-doc"))
                 .andExpect(jsonPath("$.description").value("test-description"))
                 .andReturn();
 
@@ -117,7 +117,7 @@ public class DocumentIntegrationTest {
                         .content(objectMapper.writeValueAsString(document)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists())
-                .andExpect(jsonPath("$.name").value("test-file"))
+                .andExpect(jsonPath("$.name").value("test-doc"))
                 .andExpect(jsonPath("$.description").value("updated-description"));
 
         mockMvc.perform(get("/document/{id}", result.getId())
@@ -125,15 +125,15 @@ public class DocumentIntegrationTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists())
-                .andExpect(jsonPath("$.name").value("test-file"))
+                .andExpect(jsonPath("$.name").value("test-doc"))
                 .andExpect(jsonPath("$.description").value("updated-description"));
     }
 
     @Test
     @WithMockUser(username = "test-user")
-    public void testDeleteFile() throws Exception {
+    public void testDeleteDocument() throws Exception {
         Document document = new Document();
-        document.setName("test-file");
+        document.setName("test-doc");
         document.setDescription("test-description");
 
         MvcResult mvcResult = mockMvc.perform(post("/document").with(csrf())
@@ -141,7 +141,7 @@ public class DocumentIntegrationTest {
                 .content(objectMapper.writeValueAsString(document)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists())
-                .andExpect(jsonPath("$.name").value("test-file"))
+                .andExpect(jsonPath("$.name").value("test-doc"))
                 .andExpect(jsonPath("$.description").value("test-description"))
                 .andReturn();
 
@@ -154,9 +154,9 @@ public class DocumentIntegrationTest {
 
     @Test
     @WithMockUser(username = "test-user")
-    public void testDeleteFile_NotOwned_AccessDenied() throws Exception {
+    public void testDeleteDocument_NotOwned_AccessDenied() throws Exception {
         Document document = new Document();
-        document.setName("test-file");
+        document.setName("test-doc");
         document.setDescription("test-description");
 
         MvcResult mvcResult = mockMvc.perform(post("/document")
@@ -166,7 +166,7 @@ public class DocumentIntegrationTest {
                 .content(objectMapper.writeValueAsString(document)))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$").exists())
-                .andExpect(jsonPath("$.name").value("test-file"))
+                .andExpect(jsonPath("$.name").value("test-doc"))
                 .andExpect(jsonPath("$.description").value("test-description"))
                 .andReturn();
 

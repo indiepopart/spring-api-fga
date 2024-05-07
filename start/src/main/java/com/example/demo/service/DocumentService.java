@@ -16,8 +16,8 @@ public class DocumentService {
         this.documentRepository = documentRepository;
     }
 
-    public Document save(Document file) {
-        return documentRepository.save(file);
+    public Document save(Document document) {
+        return documentRepository.save(document);
     }
 
     public Optional<Document> findById(Long id) {

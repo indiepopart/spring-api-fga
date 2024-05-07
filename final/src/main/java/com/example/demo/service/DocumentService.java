@@ -26,9 +26,9 @@ public class DocumentService {
 
     @Transactional
     @PreAuthorize("#document.parentId == null or @fga.check('document', #document.parentId, 'writer', 'user')")
-    public Document save(@P("document") Document file) {
+    public Document save(@P("document") Document document) {
         try {
-            Document result = documentRepository.save(file);
+            Document result = documentRepository.save(document);
             Permission permission = new PermissionBuilder()
                     .withDocumentId(result.getId())
                     .withRelation("owner")
