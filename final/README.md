@@ -74,7 +74,7 @@ curl -X POST \
   -H "Authorization:Bearer $ACCESS_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"name": "planning.doc"}' \
-  http://localhost:8080/file
+  http://localhost:8080/document
 ```
 
 ## Help

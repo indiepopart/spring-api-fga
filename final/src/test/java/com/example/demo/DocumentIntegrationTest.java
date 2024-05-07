@@ -57,7 +57,7 @@ public class DocumentIntegrationTest {
         document.setName("test-file");
         document.setDescription("test-description");
 
-        mockMvc.perform(post("/file").with(csrf())
+        mockMvc.perform(post("/document").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(document)))
                 .andExpect(status().isForbidden());
@@ -71,7 +71,7 @@ public class DocumentIntegrationTest {
         document.setName("test-file");
         document.setDescription("test-description");
 
-        MvcResult mvcResult = mockMvc.perform(post("/file")
+        MvcResult mvcResult = mockMvc.perform(post("/document")
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(document)))
@@ -82,7 +82,7 @@ public class DocumentIntegrationTest {
 
         Document result = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Document.class);
 
-        mockMvc.perform(get("/file/{id}", result.getId())
+        mockMvc.perform(get("/document/{id}", result.getId())
                 .with(csrf())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -98,7 +98,7 @@ public class DocumentIntegrationTest {
         document.setName("test-file");
         document.setDescription("test-description");
 
-        MvcResult mvcResult = mockMvc.perform(post("/file")
+        MvcResult mvcResult = mockMvc.perform(post("/document")
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(document)))
@@ -111,7 +111,7 @@ public class DocumentIntegrationTest {
         document.setDescription("updated-description");
 
 
-        mockMvc.perform(put("/file/{id}", result.getId())
+        mockMvc.perform(put("/document/{id}", result.getId())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(document)))
@@ -120,7 +120,7 @@ public class DocumentIntegrationTest {
                 .andExpect(jsonPath("$.name").value("test-file"))
                 .andExpect(jsonPath("$.description").value("updated-description"));
 
-        mockMvc.perform(get("/file/{id}", result.getId())
+        mockMvc.perform(get("/document/{id}", result.getId())
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -136,7 +136,7 @@ public class DocumentIntegrationTest {
         document.setName("test-file");
         document.setDescription("test-description");
 
-        MvcResult mvcResult = mockMvc.perform(post("/file").with(csrf())
+        MvcResult mvcResult = mockMvc.perform(post("/document").with(csrf())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(document)))
                 .andExpect(status().isOk())
@@ -147,7 +147,7 @@ public class DocumentIntegrationTest {
 
         Document result = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Document.class);
 
-        mockMvc.perform(delete("/file/{id}", result.getId()).with(csrf())
+        mockMvc.perform(delete("/document/{id}", result.getId()).with(csrf())
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
@@ -159,7 +159,7 @@ public class DocumentIntegrationTest {
         document.setName("test-file");
         document.setDescription("test-description");
 
-        MvcResult mvcResult = mockMvc.perform(post("/file")
+        MvcResult mvcResult = mockMvc.perform(post("/document")
                         .with(csrf())
                         .with(user("owner-user"))
                 .contentType(MediaType.APPLICATION_JSON)
@@ -172,7 +172,7 @@ public class DocumentIntegrationTest {
 
         Document result = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), Document.class);
 
-        mockMvc.perform(delete("/file/{id}", result.getId()).with(csrf())
+        mockMvc.perform(delete("/document/{id}", result.getId()).with(csrf())
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isForbidden());
 

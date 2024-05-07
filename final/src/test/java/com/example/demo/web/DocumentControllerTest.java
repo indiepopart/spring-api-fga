@@ -39,7 +39,7 @@ public class DocumentControllerTest {
 
         willReturn(document).given(documentService).save(any(Document.class));
 
-        mockMvc.perform(post("/file").with(csrf())
+        mockMvc.perform(post("/document").with(csrf())
             .contentType(MediaType.APPLICATION_JSON)
             .content("{\"name\":\"test-file\",\"description\":\"test-description\"}"))
             .andExpect(status().isOk())
@@ -54,7 +54,7 @@ public class DocumentControllerTest {
 
         willThrow(new DocumentServiceException(new RuntimeException("FGA Error"))).given(documentService).save(any(Document.class));
 
-        mockMvc.perform(post("/file").with(csrf())
+        mockMvc.perform(post("/document").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"test-file\",\"description\":\"test-description\"}"))
                 .andExpect(status().isInternalServerError());
@@ -72,7 +72,7 @@ public class DocumentControllerTest {
         // AccessDeniedException thrown when @PreAuthorize rejects the operation
         willThrow(new AccessDeniedException("Access is denied")).given(documentService).save(any(Document.class));
 
-        mockMvc.perform(post("/file").with(csrf())
+        mockMvc.perform(post("/document").with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"name\":\"test-file\",\"description\":\"test-description\"}"))
                 .andExpect(status().isForbidden());

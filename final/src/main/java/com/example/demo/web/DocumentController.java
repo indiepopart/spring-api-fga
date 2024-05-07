@@ -1,6 +1,7 @@
 package com.example.demo.web;
 
 import com.example.demo.model.Document;
+
 import com.example.demo.service.DocumentService;
 import com.example.demo.service.DocumentServiceException;
 import org.springframework.http.ResponseEntity;
@@ -20,30 +21,30 @@ public class DocumentController {
         this.documentService = documentService;
     }
 
-    @PostMapping("/file")
+    @PostMapping("/document")
     public Document createFile(@RequestBody Document file, Principal principal) {
         file.setOwnerId(principal.getName());
         return documentService.save(file);
     }
 
-    @GetMapping("/file")
+    @GetMapping("/document")
     public List<Document> getFiles() {
         return documentService.findAll();
     }
 
-    @GetMapping("/file/{id}")
+    @GetMapping("/document/{id}")
     public ResponseEntity<Document> getFile(@PathVariable Long id) {
         return documentService.findById(id).map(file -> ResponseEntity.ok().body(file))
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/file/{id}")
+    @DeleteMapping("/document/{id}")
     public ResponseEntity<?> deleteFile(@PathVariable Long id) {
         documentService.deleteById(id);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/file/{id}")
+    @PutMapping("/document/{id}")
     public ResponseEntity<Document> updateFile(@PathVariable Long id, @RequestBody Document file) {
         // TODO this will return access denied if document does not exist
         return documentService.findById(id).map(update -> {
