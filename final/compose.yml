@@ -1,6 +1,6 @@
 services:
   openfga:
-    image: openfga/openfga:latest
+    image: openfga/openfga:v1.5.3
     container_name: openfga
     command: run
     environment:

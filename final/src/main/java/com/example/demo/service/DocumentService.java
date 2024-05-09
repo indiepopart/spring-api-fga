@@ -5,6 +5,8 @@ import com.example.demo.model.DocumentRepository;
 import com.example.demo.model.Permission;
 import com.example.demo.model.PermissionBuilder;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
@@ -12,8 +14,11 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
 public class DocumentService {
+
+    private static Logger logger = LoggerFactory.getLogger(DocumentService.class.getName());
 
     private DocumentRepository documentRepository;
 
@@ -37,6 +42,7 @@ public class DocumentService {
             authorizationService.create(permission);
             return result;
         } catch(Exception e){
+            logger.error("Error saving document", e);
             throw new DocumentServiceException("Unexpected error", e);
         }
     }
