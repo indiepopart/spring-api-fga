@@ -6,6 +6,7 @@ import com.example.demo.service.DocumentServiceException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.List;
 
 // Metadata only requests
@@ -19,8 +20,8 @@ public class DocumentController {
     }
 
     @PostMapping("/document")
-    public Document createDocument(@RequestBody Document document) {
-        document.setOwnerId("test-user");
+    public Document createDocument(@RequestBody Document document, Principal principal) {
+        document.setOwnerId(principal.getName());
         return documentService.save(document);
     }
 
