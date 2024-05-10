@@ -39,7 +39,7 @@ The first line in the command output will contain your Auth0 domain.
 
 ## Run the Spring Boot API resource server
 
-Create a file `application.yml` at the project root with the following content:
+Create a file `application.yml` at the root of the `final` project with the following content:
 
 ```yaml
 okta:
