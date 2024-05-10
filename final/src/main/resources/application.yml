@@ -5,15 +5,6 @@ spring:
   application:
     name: Document API
 
-okta:
-  oauth2:
-    issuer: https://dev-avup2laz.us.auth0.com/
-    audience: https://document-api.okta.com
-    #groupsClaim: permissions
-
-
-# src/main/resources/application.yaml
-
 openfga:
   api-url: http://localhost:8090
   store-id: 01HVPKRS8RPMFYMSW0XQET3XPG
