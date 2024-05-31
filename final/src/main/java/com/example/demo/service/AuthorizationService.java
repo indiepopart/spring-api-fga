@@ -27,7 +27,7 @@ public class AuthorizationService {
                     ._object("document:" + permission.getDocumentId());
             ClientWriteResponse response = fgaClient.writeTuples(List.of(tuple)).get();
         } catch (FgaInvalidParameterException | InterruptedException | ExecutionException e) {
-            throw new AuthorizationServiceException(e);
+            throw new AuthorizationServiceException("Unexpected error", e);
         }
     }
 }

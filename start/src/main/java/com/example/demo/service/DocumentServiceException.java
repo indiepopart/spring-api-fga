@@ -6,7 +6,7 @@ public class DocumentServiceException extends RuntimeException {
         super(e);
     }
 
-    public DocumentServiceException(String unexpectedError, Exception e) {
-        super(unexpectedError, e);
+    public DocumentServiceException(String message, Exception e) {
+        super(message, e);
     }
 }

@@ -1,6 +1,5 @@
 package com.example.demo.initializer;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.openfga.sdk.api.model.AuthorizationModel;
 import org.slf4j.Logger;
@@ -35,8 +34,6 @@ public class OpenFGAUtil {
             AuthorizationModel authorizationModel = objectMapper.readValue(json, AuthorizationModel.class);
             logger.debug(authorizationModel.toString());
             return authorizationModel;
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
